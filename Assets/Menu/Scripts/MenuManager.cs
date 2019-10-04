@@ -7,49 +7,50 @@ using System.IO;
 
 public class MenuManager : MonoBehaviour {
 
-	public Button[] options = new Button[4];
-	public int sel;
+    public Button[] options = new Button[4];
+    private int sel;
     public Texture2D texture;
     public GameObject mainMenu;
     public GameObject rankMenu;
     public GameObject infoMenu;
     public Text rankingText;
     private string path;
+    private int infoSel;
 
-	// Use this for initialization
-	void Start () {
-		sel = 5;
+    // Use this for initialization
+    void Start() {
+        sel = 5;
         Cursor.SetCursor(texture, Vector2.zero, CursorMode.ForceSoftware);
         Cursor.visible = true;
         path = "Assets/Resources/rank.txt";
         rankMenu.SetActive(false);
         infoMenu.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-		if(Input.GetKeyDown(KeyCode.UpArrow)){
-			sel--;	
-			checkSelected();
-		}
+    // Update is called once per frame
+    void Update() {
 
-		if(Input.GetKeyDown(KeyCode.DownArrow)){
-			sel++;	
-			checkSelected();
-		}
-		
-		for (int i = 0; i < 4; i++) {
-			if (i == sel) {
-				options [i].GetComponentInChildren<Text> ().fontSize = 60;
-				options [i].GetComponentInChildren<Text> ().color = Color.gray;
-			} else {
-				options [i].GetComponentInChildren<Text> ().fontSize = 50;
-				options [i].GetComponentInChildren<Text> ().color = Color.white;
-			}
-		}
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            sel--;
+            checkSelected();
+        }
 
-		if(Input.GetKeyDown(KeyCode.Return)){
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            sel++;
+            checkSelected();
+        }
+
+        for (int i = 0; i < 4; i++) {
+            if (i == sel) {
+                options[i].GetComponentInChildren<Text>().fontSize = 60;
+                options[i].GetComponentInChildren<Text>().color = Color.gray;
+            } else {
+                options[i].GetComponentInChildren<Text>().fontSize = 50;
+                options[i].GetComponentInChildren<Text>().color = Color.white;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return)) {
             if (sel == 0)
                 PlayGame();
             else if (sel == 1)
@@ -58,25 +59,36 @@ public class MenuManager : MonoBehaviour {
                 ShowInfo();
             else if (sel == 3)
                 QuitGame();
-		}
+        }
 
-	}
+        if (infoMenu.activeSelf == true) {
+            for (int i = 1; i <= 9; i++) {
+                GameObject go = infoMenu.transform.Find(i.ToString()).gameObject;
+                if (i == infoSel) {
+                    go.SetActive(true);
+                } else {
+                    go.SetActive(false);
+                }
+            }
+        }
 
-	public void checkSelected(){
-		if (sel > 3)
-			sel = 0;
+    }
 
-		if (sel < 0)
-			sel = 3;
-	}
+    public void checkSelected() {
+        if (sel > 3)
+            sel = 0;
 
-	public void PlayGame(){
-		SceneManager.LoadScene("Game");
-	}
+        if (sel < 0)
+            sel = 3;
+    }
 
-	public void QuitGame(){
-		Application.Quit ();
-	}
+    public void PlayGame() {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void QuitGame() {
+        Application.Quit();
+    }
 
     public void ShowRank() {
         StreamReader reader = new StreamReader(path);
@@ -106,8 +118,8 @@ public class MenuManager : MonoBehaviour {
             }
         }
         rankingText.text = "";
-        for(int j = 0; j < 10; j++) {
-            if(scores[j] > 0)
+        for (int j = 0; j < 10; j++) {
+            if (scores[j] > 0)
                 rankingText.text += ((j + 1).ToString() + ". " + names[j] + ": " + scores[j] + "\n");
         }
         mainMenu.SetActive(false);
@@ -116,6 +128,7 @@ public class MenuManager : MonoBehaviour {
 
 
     public void ShowInfo() {
+        infoSel = 1;
         mainMenu.SetActive(false);
         infoMenu.SetActive(true);
     }
@@ -130,17 +143,32 @@ public class MenuManager : MonoBehaviour {
         mainMenu.SetActive(true);
     }
 
-	public void ButtonHover(Button button){
-		button.GetComponentInChildren<Text> ().fontSize = 60;
-        button.GetComponentInChildren<Text>().color = Color.gray;
-		sel = int.Parse (button.tag);
-	}
+    public void infoNext() {
+        Debug.Log(infoSel);
+        if (infoSel < 9) {
+            infoSel++;
+        }
+        Debug.Log(infoSel);
+    }
 
-	public void ButtonHoverOut(Button button){
-		button.GetComponentInChildren<Text> ().fontSize = 50;
-		button.GetComponentInChildren<Text> ().color = Color.white;
-		sel = 5;
-	}
+    public void infoPrev() {
+        Debug.Log(infoSel);
+        if (infoSel > 1) {
+            infoSel--;
+        }
+    }
+
+    public void ButtonHover(Button button) {
+        button.GetComponentInChildren<Text>().fontSize = 60;
+        button.GetComponentInChildren<Text>().color = Color.gray;
+        sel = int.Parse(button.tag);
+    }
+
+    public void ButtonHoverOut(Button button) {
+        button.GetComponentInChildren<Text>().fontSize = 50;
+        button.GetComponentInChildren<Text>().color = Color.white;
+        sel = 5;
+    }
 
     public void ButtonHoverGen(Button button) {
         button.GetComponentInChildren<Text>().fontSize = 35;

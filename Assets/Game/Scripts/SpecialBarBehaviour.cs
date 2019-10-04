@@ -35,6 +35,6 @@ public class SpecialBarBehaviour : MonoBehaviour {
     }
 
     void FixedUpdate() {
-            
+
     }
 }

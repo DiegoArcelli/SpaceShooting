@@ -35,7 +35,7 @@ public class BigEnemyBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+
     }
 
     void FixedUpdate() {
@@ -56,9 +56,9 @@ public class BigEnemyBehaviour : MonoBehaviour {
     IEnumerator EnemyShoot() {
         while (true) {
             yield return new WaitForSeconds(3f);
-            bullet.transform.rotation = transform.rotation; 
+            bullet.transform.rotation = transform.rotation;
             Instantiate(bullet, transform.position, bullet.transform.rotation);
-            bullet.transform.Rotate(new Vector3(0f,0f,20f));
+            bullet.transform.Rotate(new Vector3(0f, 0f, 20f));
             Instantiate(bullet, transform.position, bullet.transform.rotation);
             bullet.transform.Rotate(new Vector3(0f, 0f, -40f));
             Instantiate(bullet, transform.position, bullet.transform.rotation);

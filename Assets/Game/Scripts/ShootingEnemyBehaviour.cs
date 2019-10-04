@@ -10,7 +10,7 @@ public class ShootingEnemyBehaviour : MonoBehaviour {
     public GameObject explosion;
 
 
-    void OnCollisionEnter2D(Collision2D col){
+    void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.tag == "Player") {
             player.GetComponent<GameStats>().decreaseLife(20);
             Instantiate(explosion, this.transform.position, this.transform.rotation);
@@ -29,7 +29,7 @@ public class ShootingEnemyBehaviour : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+
 
     }
 

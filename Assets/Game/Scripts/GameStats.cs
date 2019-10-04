@@ -6,17 +6,17 @@ using System.IO;
 
 public class GameStats : MonoBehaviour {
 
-	public int points;
+    public int points;
     public int specialPoints;
     public float health;
     public int special;
-	public Text score;
-	public Sprite[] hearts = new Sprite[3];
-	public GameObject health_hearts;
-	public GameObject pause_menu;
+    public Text score;
+    public Sprite[] hearts = new Sprite[3];
+    public GameObject health_hearts;
+    public GameObject pause_menu;
     public GameObject end_menu;
     public GameObject new_top_menu;
-	public bool isPaused;
+    public bool isPaused;
     public bool specialActived;
     public Texture2D texture;
     public InputField name_field;
@@ -27,16 +27,16 @@ public class GameStats : MonoBehaviour {
     private int pos;
 
     // Use this for initialization
-    void Start () {
-        
-		points = 0;
+    void Start() {
+
+        points = 0;
         specialPoints = 0;
-		health = 100;
-		end_menu = GameObject.FindGameObjectWithTag ("EndMenu");
-		pause_menu = GameObject.FindGameObjectWithTag ("PauseMenu");
+        health = 100;
+        end_menu = GameObject.FindGameObjectWithTag("EndMenu");
+        pause_menu = GameObject.FindGameObjectWithTag("PauseMenu");
         new_top_menu = GameObject.FindGameObjectWithTag("InsertMenu");
         isPaused = false;
-		pause_menu.SetActive(false);
+        pause_menu.SetActive(false);
         end_menu.SetActive(false);
         new_top_menu.SetActive(false);
         special = 5000;
@@ -46,10 +46,10 @@ public class GameStats : MonoBehaviour {
         path = "Assets/Resources/rank.txt";
         player_name = null;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if(Input.GetKeyDown(KeyCode.Escape))
+
+    // Update is called once per frame
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape))
             checkPause();
         if (name_field.isFocused && name_field.text != "" && Input.GetKey(KeyCode.Return)) {
             player_name = name_field.text;
@@ -59,10 +59,10 @@ public class GameStats : MonoBehaviour {
         }
     }
 
-	void FixedUpdate(){
-		
-		score.text = points.ToString ();
-        if(health <= 0) {
+    void FixedUpdate() {
+
+        score.text = points.ToString();
+        if (health <= 0) {
             CheckNewRecord();
             end_menu.gameObject.transform.Find("FinalScore").GetComponent<Text>().text = "SCORE: " + points.ToString();
             checkPause();
@@ -72,23 +72,23 @@ public class GameStats : MonoBehaviour {
 
     }
 
-	public void increasePoint(int increment){
-		points += increment;
-	}
+    public void increasePoint(int increment) {
+        points += increment;
+    }
 
     public void increaseSpecialPoint(int increment) {
         specialPoints += increment;
     }
 
-    public void decreaseLife(int damage){
-		health -= damage;
-	}
+    public void decreaseLife(int damage) {
+        health -= damage;
+    }
 
-	public void ButtonHover(Button button){
+    public void ButtonHover(Button button) {
         button.GetComponent<Image>().color = Color.gray;
     }
 
-    public void ButtonHoverOut(Button button){
+    public void ButtonHoverOut(Button button) {
         button.GetComponent<Image>().color = Color.white;
     }
 
@@ -98,11 +98,10 @@ public class GameStats : MonoBehaviour {
     }
 
     public void checkPause() {
-        if (isPaused){
+        if (isPaused) {
             Time.timeScale = 1.0f;
             pause_menu.SetActive(false);
-        }
-        else {
+        } else {
             Time.timeScale = 0.0f;
             pause_menu.SetActive(true);
         }
@@ -137,18 +136,18 @@ public class GameStats : MonoBehaviour {
         reader.Close();
         int j_min = 0;
         for (int j = 1; j < 10; j++) {
-            if(scores[j_min] > scores[j]) {
+            if (scores[j_min] > scores[j]) {
                 j_min = j;
             }
         }
-        if(scores[j_min] < newScore) {
+        if (scores[j_min] < newScore) {
             pos = j_min;
             new_top_menu.SetActive(true);
         }
-        
+
     }
 
-    public void UpdateRank( ) {
+    public void UpdateRank() {
         scores[pos] = points;
         names[pos] = player_name;
         StreamWriter writer = new StreamWriter(path);
